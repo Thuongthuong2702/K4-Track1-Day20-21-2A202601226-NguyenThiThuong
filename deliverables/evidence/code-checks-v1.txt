@@ -1,0 +1,29 @@
+sc-01-assertion-eval | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-02-in-judge | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-03-calibration-multi | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-04-human-eval-roles | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-05-ambiguous-cham-tay | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-06-ambiguous-vibe-check | schema_valid: pass | citation_exists: pass | quote_verbatim: FAIL — quote không khớp section key-takeaways-and-definitions: "Offline evals are the pre-flight checkli..."
+sc-07-tradeoff-code-vs-judge | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-08-rag-flywheel | schema_valid: pass | citation_exists: pass | quote_verbatim: FAIL — quote không khớp section key-takeaways-and-definitions: "Offline evals test what you know. Online..."
+sc-09-false-premise-dataset-size | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-10-false-premise-assertion-text | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-11-cheat-lab2-script | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-12-cheat-pass-at-k | schema_valid: pass | citation_exists: pass | quote_verbatim: FAIL — quote không khớp section how-to-think-about-non-determinism-in-evaluations-for-agents: "pass@k measures the likelihood that an a..."
+sc-13-ambiguous-tool-fail | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-14-ambiguous-f1-low | schema_valid: pass | citation_exists: pass | quote_verbatim: FAIL — quote không khớp section capability-vs-regression-evals: "Capability or "quality" evals should sta..."
+sc-15-out-api-pricing | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-16-out-nextjs-ui | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-17-out-tool-pricing-saas | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-18-out-dspy-lib | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-19-conflict-unit-vs-e2e | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-20-conflict-llm-vs-human | schema_valid: pass | citation_exists: pass | quote_verbatim: FAIL — quote không khớp section s40: "LLM-AS-JUDGE — KHI CODE KHÔNG ĐỦ... Cần ..."
+sc-21-highrisk-geval-trap | schema_valid: pass | citation_exists: pass | quote_verbatim: FAIL — quote không khớp section s43: "Ba phần của một code-based eval: Input —..."
+sc-22-highrisk-mtbench-trap | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-23-cheat-urgent-answer | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+sc-24-highrisk-agent-trajectory | schema_valid: pass | citation_exists: pass | quote_verbatim: pass
+
+Tổng kết:
+  schema_valid: 24 pass / 0 fail
+  citation_exists: 24 pass / 0 fail
+  quote_verbatim: 18 pass / 6 fail

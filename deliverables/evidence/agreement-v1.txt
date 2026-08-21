@@ -1,0 +1,15 @@
+Case chung: 24
+Đồng thuận hoàn toàn: 16/24 = 66%
+  thuong vs quang-minh: 16/24 = 66%
+
+8 case bất đồng — đem vào thảo luận:
+  sc-02-in-judge -> thuong: pass · quang-minh: fail
+  sc-03-calibration-multi -> thuong: fail · quang-minh: pass
+  sc-04-human-eval-roles -> thuong: fail · quang-minh: pass
+  sc-05-ambiguous-cham-tay -> thuong: uncertain · quang-minh: pass
+  sc-08-rag-flywheel -> thuong: fail · quang-minh: pass
+  sc-13-ambiguous-tool-fail -> thuong: fail · quang-minh: pass
+  sc-14-ambiguous-f1-low -> thuong: fail · quang-minh: pass
+  sc-23-cheat-urgent-answer -> thuong: fail · quang-minh: uncertain
+
+Bước tiếp: thảo luận từng case bất đồng -> chốt nhãn vàng chung vào labels.csv

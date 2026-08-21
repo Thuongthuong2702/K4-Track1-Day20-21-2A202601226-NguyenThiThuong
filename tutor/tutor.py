@@ -81,6 +81,7 @@ PROVIDERS = {
     "anthropic":  ("ANTHROPIC_API_KEY", "https://api.anthropic.com/v1"),
     "gemini":     ("GEMINI_API_KEY", "https://generativelanguage.googleapis.com/v1beta/openai"),
     "openrouter": ("OPENROUTER_API_KEY", "https://openrouter.ai/api/v1"),
+    "groq":       ("GROQ_API_KEY", "https://api.groq.com/openai/v1"),
 }
 
 BASE_URL = os.environ.get("EVAL_BASE_URL")  # None = gọi thẳng provider

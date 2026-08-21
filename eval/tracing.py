@@ -46,8 +46,8 @@ class _Braintrust:
 
     def __init__(self):
         import braintrust
-        self._logger = braintrust.init_logger(
-            project=os.environ.get("BRAINTRUST_PROJECT", DEFAULT_PROJECT))
+        self._logger = braintrust.init_logger(project="My Project")
+        braintrust.auto_instrument()
 
     def log_run(self, name, inputs=None, outputs=None, metrics=None, metadata=None):
         try:

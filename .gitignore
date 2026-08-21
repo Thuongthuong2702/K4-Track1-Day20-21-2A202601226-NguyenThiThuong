@@ -8,3 +8,6 @@ verdicts.jsonl
 labels.csv
 labels-*.csv
 report.html
+# Added by Braintrust Wizard
+.env.braintrust
+.braintrust.json

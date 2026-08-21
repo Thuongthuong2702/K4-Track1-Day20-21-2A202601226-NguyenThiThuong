@@ -1,4 +1,51 @@
 # K3 Track 1 · Day 20–21 — AI Evaluation (eval-kit)
+## Thông tin cá nhân & nhóm
+
+- Họ tên: Nguyễn Thị Thương — MSSV: 2A202601226
+- Lớp/khoá: K4
+- Thành viên nhóm: Nguyễn Thị Thương, Trương Quang Minh
+
+## Sơ đồ 6 phase & artifact mỗi phase
+
+| Phase | Việc chính | Artifact (đầu vào → đầu ra → quyết định) |
+|---|---|---|
+| P1. Input Grid | Thiết kế coverage: user × intent, ô rủi ro cao | `AI_Tutor_Coverage_Evaluations.md` → lưới trong `deliverables/REPORT.md` mục 1 |
+| P2. Human baseline | Chạy tutor, chấm tay độc lập, đo đồng thuận | `dataset-v1.jsonl` → `results-v1.jsonl` + `labels-*.csv` → `agreement-v1.txt` (66%) |
+| P3. Rubric + Routing | Định nghĩa pass/fail từng tiêu chí, ai chấm (code/LLM/người) | Chấm chéo 2 người → rubric + routing map trong REPORT.md mục 3–4 |
+| P4. Calibrate judge | Sửa judge_prompt, đo agreement với nhãn vàng | `judge-prompt-v1.md`→`v2.md`, `verdicts-v1.jsonl`→`v2.jsonl` (42%→71%) |
+| P5. Đọc kết quả, đặt ngưỡng | Đọc pass rate theo tiêu chí/slice, chốt threshold | Scorecard REPORT.md mục 6, gate ≥80%|
+| P6. Verdict | Ship/Hold có điều kiện, kèm evidence | REPORT.md mục 7|
+
+## Đóng góp của tôi
+
+- Đồng bộ dataset canonical 24 rows và Input Grid 
+- Chấm nhãn độc lập vòng 1, 
+Phase phụ trách chính: P1 Input Grid + P2 chạy eval/chấm nhãn độc lập 
+- Định nghĩa pass/fail từng tiêu chí, lên ý tưởng rubric + routing map
+- Thực hiện code checks, viết và calibrate judge prompt, chốt threshold
+- Hoàn thiện REPORT
+
+## Verdict của nhóm & vì sao
+
+**[TÓM TẮT TỪ REPORT.md MỤC 7]** — hiện tại: **Hold** vì pass rate tổng hợp (nhãn vàng)
+chỉ 54.2%, dưới ngưỡng gate đã đặt trước (≥80%); tiêu chí blocker `quote_verbatim` cũng
+dưới ngưỡng (75%). Chi tiết đầy đủ + điều kiện ship lại:
+[deliverables/REPORT.md](deliverables/REPORT.md) mục 7.
+
+## Điều tôi sẽ mang về áp dụng cho dự án thật
+- Thiết kế coverage trước khi test: Xác định rõ AI phục vụ những nhóm user, intent và tình huống nào; ưu tiên xây dựng test case cho các tình huống có rủi ro cao thay vì test ngẫu nhiên.
+- Xây dựng human baseline: Trước khi dùng AI để tự động chấm, cần có một tập dữ liệu được con người đánh giá độc lập để làm golden dataset và tiêu chuẩn tham chiếu.
+- Xây dựng rubric rõ ràng: Chuyển khái niệm “câu trả lời tốt” thành các tiêu chí pass/fail cụ thể, có thể đo lường và áp dụng nhất quán giữa các evaluator.
+- Routing cách chấm: Không phải tiêu chí nào cũng nên dùng LLM judge. Những tiêu chí có thể kiểm tra bằng code nên tự động hóa; tiêu chí về chất lượng/ngữ nghĩa có thể dùng LLM judge; các case rủi ro cao nên có human review.
+- Calibrate LLM judge: Không mặc định judge đã đáng tin cậy. Cần so sánh kết quả của judge với golden labels, phân tích những case judge chấm sai và liên tục cải thiện prompt/rubric.
+- Đánh giá theo từng slice: Không chỉ nhìn vào một điểm số tổng. Cần xem AI hoạt động thế nào theo từng intent, nhóm user, loại câu hỏi hoặc mức độ rủi ro để phát hiện các điểm yếu bị che khuất bởi average score.
+- Đặt threshold trước khi quyết định ship: Xác định trước mức chất lượng tối thiểu mà AI phải đạt, ví dụ gate ≥80%, thay vì nhìn kết quả rồi mới quyết định tiêu chuẩn.
+- Ship dựa trên evidence: Quyết định Ship/Hold cần dựa trên dataset, rubric, scorecard và kết quả test cụ thể. Nếu chưa đạt nhưng có thể kiểm soát được rủi ro thì có thể ship có điều kiện kèm monitoring và kế hoạch cải thiện.
+- Biến evaluation thành một phần của CI/CD: Trong dự án thật, quy trình này có thể được chạy lại mỗi khi thay đổi model, prompt hoặc logic agent để phát hiện regression trước khi release.
+- Tạo evaluation loop liên tục: Evaluation không phải hoạt động làm một lần. Sau mỗi lần release cần thu thập các failure case mới, cập nhật golden dataset/rubric và dùng chúng để cải thiện model, prompt và judge.
+
+
+---
 
 Repo làm bài capstone **AI Evaluation** của case **VLearn AI Tutor** — trợ giảng trả lời
 câu hỏi học viên, chỉ dựa trên tài liệu khóa học, output là JSON

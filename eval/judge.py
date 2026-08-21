@@ -7,8 +7,9 @@ Judge dùng prompt trong eval/judge_prompt.md (placeholder {{input}} {{answer}} 
 Model judge mặc định khác model tutor (EVAL_JUDGE_MODEL, mặc định openai/gpt-4o-mini)
 để tránh tự chấm chéo cùng một model.
 """
-import csv, json, os, sys
+import csv, json, os, sys, time
 from pathlib import Path
+import requests
 
 # tutor.py nằm ở tutor/ (khu vực sản phẩm) — thêm vào sys.path để import được
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tutor"))
@@ -54,8 +55,10 @@ def build_judge_prompt(rec, template):
 
 def judge_row(rec, template):
     prompt = build_judge_prompt(rec, template)
+    # max_tokens rộng hơn mặc định: model judge groq/gpt-oss có reasoning token ẩn
+    # tính vào cùng ngân sách max_tokens — 500 hay bị cắt giữa chừng trước khi ra JSON.
     data, latency = tutor.chat([{"role": "user", "content": prompt}],
-                               model=JUDGE_MODEL, max_tokens=500)
+                               model=JUDGE_MODEL, max_tokens=1500)
     content = data["choices"][0]["message"]["content"]
     out = tutor.parse_json_content(content)
     return {"scenario_id": rec["scenario_id"], "verdict": out.get("verdict", "uncertain"),
@@ -96,7 +99,16 @@ def main():
     for i, rec in enumerate(rows, 1):
         print("[%d/%d] %s ... " % (i, len(rows), rec["scenario_id"]), end="", flush=True)
         try:
-            v = judge_row(rec, template)
+            v = None
+            for retry in range(4):  # Groq free tier rate-limit: backoff rồi thử lại thay vì bỏ cuộc luôn
+                try:
+                    v = judge_row(rec, template)
+                    break
+                except requests.exceptions.HTTPError as e:
+                    if e.response is not None and e.response.status_code == 429 and retry < 3:
+                        time.sleep(5 * (retry + 1))
+                        continue
+                    raise
             _tracer.log_run(
                 name="judge-run",
                 inputs={"scenario_id": rec["scenario_id"], "judge_model": JUDGE_MODEL},
@@ -111,6 +123,7 @@ def main():
                  "error": str(e)}
             print("LỖI: %s" % e)
         verdicts.append(v)
+        time.sleep(2)  # né rate limit của free tier giữa các row liên tiếp
 
     with open("verdicts.jsonl", "w", encoding="utf-8") as f:
         for v in verdicts:
